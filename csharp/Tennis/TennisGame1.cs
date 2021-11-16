@@ -13,10 +13,6 @@ namespace Tennis
     {
         private Player _playerOne;
 
-        private int _points
-        {
-            get => _playerOne.Points;
-        }
         private readonly Dictionary<int, string> _pointsToScore;
 
         public EqualScore(int points, Player playerOne)
@@ -33,8 +29,8 @@ namespace Tennis
 
         public string Get()
         {
-            if (_points <= 2)
-                return _pointsToScore[_points] + "-All";
+            if (_playerOne.Points <= 2)
+                return _pointsToScore[_playerOne.Points] + "-All";
 
             return "Deuce";
         }
@@ -43,12 +39,12 @@ namespace Tennis
 
     public class AdvantageOrWinScore : IScore
     {
-        private int _points1;
-        private int _points2;
-        public AdvantageOrWinScore(int points1, int points2)
+        private Player _playerOne;
+        private Player _playerTwo;
+        public AdvantageOrWinScore(Player playerOne, Player playerTwo)
         {
-            _points1 = points1;
-            _points2 = points2;
+            _playerOne = playerOne;
+            _playerTwo = playerTwo;
         }
         public string Get()
         {
