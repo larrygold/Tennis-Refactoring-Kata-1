@@ -5,28 +5,36 @@ namespace Tennis
 {
     public class Player
     {
-        public int _scorePlayerOne { get; set; }
-        public int _scorePlayerTwo { get; set; }
+        public int ScorePlayerOne { get; set; }
+        public int ScorePlayerTwo { get; set; }
     }
 
     public class TennisGame1 : ITennisGame
     {
-        private static readonly Dictionary<int, string> PointsToScore = new()
-        {
-            {0, "Love"},
-            {1, "Fifteen"},
-            {2, "Thirty"},
-            {3, "Forty"}
-        };
+        private static Dictionary<int, string> _pointsToScore;
 
-        private readonly Player _player = new Player();
+        private readonly Player _playerOne;
+        private readonly Player _playerTwo;
+
+        public TennisGame1()
+        {
+            _playerOne = new Player();
+            _playerTwo = new Player();
+            _pointsToScore = new()
+            {
+                { 0, "Love" },
+                { 1, "Fifteen" },
+                { 2, "Thirty" },
+                { 3, "Forty" }
+            };
+        }
 
         public void WinPoint(string playerName)
         {
             if (playerName == "player1")
-                _player._scorePlayerOne ++;
+                _playerOne.ScorePlayerOne ++;
             else
-                _player._scorePlayerTwo ++;
+                _playerOne.ScorePlayerTwo ++;
         }
 
         public string GetScore()
@@ -46,13 +54,13 @@ namespace Tennis
 
         private string GetOngoingScore()
         {
-            return GetIndividualScore(_player._scorePlayerOne) + "-" + GetIndividualScore(_player._scorePlayerTwo);
+            return GetIndividualScore(_playerOne.ScorePlayerOne) + "-" + GetIndividualScore(_playerOne.ScorePlayerTwo);
         }
 
         private string GetAdvantageOrWinScore()
         {
-            var scoresDelta = Math.Abs(_player._scorePlayerOne - _player._scorePlayerTwo);
-            var leadingPlayerName = _player._scorePlayerOne > _player._scorePlayerTwo ? "player1" : "player2";
+            var scoresDelta = Math.Abs(_playerOne.ScorePlayerOne - _playerOne.ScorePlayerTwo);
+            var leadingPlayerName = _playerOne.ScorePlayerOne > _playerOne.ScorePlayerTwo ? "player1" : "player2";
 
             if (scoresDelta == 1)
                 return $"Advantage {leadingPlayerName}";
@@ -62,28 +70,28 @@ namespace Tennis
 
         private string GetEqualScore()
         {
-            if (_player._scorePlayerOne <= 2)
-                return PointsToScore[_player._scorePlayerOne] + "-All";
+            if (_playerOne.ScorePlayerOne <= 2)
+                return _pointsToScore[_playerOne.ScorePlayerOne] + "-All";
 
             return "Deuce";
         }
 
         private static string GetIndividualScore(int points)
         {
-            if (PointsToScore.ContainsKey(points))
-                return PointsToScore[points];
+            if (_pointsToScore.ContainsKey(points))
+                return _pointsToScore[points];
 
             throw new Exception();
         }
 
         private bool IsAdvantageOrWin()
         {
-            return _player._scorePlayerOne >= 4 || _player._scorePlayerTwo >= 4;
+            return _playerOne.ScorePlayerOne >= 4 || _playerOne.ScorePlayerTwo >= 4;
         }
 
         private bool IsEquality()
         {
-            return _player._scorePlayerOne == _player._scorePlayerTwo;
+            return _playerOne.ScorePlayerOne == _playerOne.ScorePlayerTwo;
         }
     }
 }
