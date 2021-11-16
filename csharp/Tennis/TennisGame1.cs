@@ -58,6 +58,40 @@ namespace Tennis
         }
     }
 
+    public class OngoingScore : IScore
+    {
+        private readonly Player _playerOne;
+        private readonly Player _playerTwo;
+        private readonly Dictionary<int, string> _pointsToScore;
+
+        public OngoingScore(Player playerOne, Player playerTwo)
+        {
+            _playerOne = playerOne;
+            _playerTwo = playerTwo;
+            _pointsToScore = new()
+            {
+                { 0, "Love" },
+                { 1, "Fifteen" },
+                { 2, "Thirty" },
+                { 3, "Forty" }
+            };
+
+        }
+
+        public string Get()
+        {
+            return GetIndividualScore(_playerOne.Points) + "-" + GetIndividualScore(_playerTwo.Points);
+        }
+
+        private string GetIndividualScore(int points)
+        {
+            if (_pointsToScore.ContainsKey(points))
+                return _pointsToScore[points];
+
+            throw new Exception();
+        }
+    }
+
     public interface IScore
     {
         public string Get();
@@ -108,17 +142,6 @@ namespace Tennis
                 return _pointsToScore[points];
 
             throw new Exception();
-        }
-
-        private string GetAdvantageOrWinScore()
-        {
-            var scoresDelta = Math.Abs(PlayerOne.Points - PlayerTwo.Points);
-            var leadingPlayerName = PlayerOne.Points > PlayerTwo.Points ? "player1" : "player2";
-
-            if (scoresDelta == 1)
-                return $"Advantage {leadingPlayerName}";
-
-            return $"Win for {leadingPlayerName}";
         }
 
         private string GetOngoingScore()
