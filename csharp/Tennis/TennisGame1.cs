@@ -9,14 +9,14 @@ namespace Tennis
         public int Score { get; set; }
     }
 
-    public class Players
+    public class ScoreBoard
     {
         private readonly Dictionary<int, string> _pointsToScore;
 
         public Player PlayerOne { get; set; }
         public Player PlayerTwo { get; set; }
 
-        public Players(Player playerOne, Player playerTwo)
+        public ScoreBoard(Player playerOne, Player playerTwo)
         {
             PlayerOne = playerOne;
             PlayerTwo = playerTwo;
@@ -28,9 +28,6 @@ namespace Tennis
                 { 3, "Forty" }
             };
         }
-
-        public bool HaveEqualScores() => PlayerOne.Score == PlayerTwo.Score;
-        public bool OneHasAdvantageOrWins() => PlayerOne.Score >= 4 || PlayerTwo.Score >= 4;
 
         public string GetScore()
         {
@@ -47,8 +44,11 @@ namespace Tennis
             return GetOngoingScore();
         }
 
+        private bool HaveEqualScores() => PlayerOne.Score == PlayerTwo.Score;
 
-        public string GetIndividualScore(int points)
+        private bool OneHasAdvantageOrWins() => PlayerOne.Score >= 4 || PlayerTwo.Score >= 4;
+
+        private string GetIndividualScore(int points)
         {
             if (_pointsToScore.ContainsKey(points))
                 return _pointsToScore[points];
@@ -56,7 +56,7 @@ namespace Tennis
             throw new Exception();
         }
 
-        public string GetEqualScore()
+        private string GetEqualScore()
         {
             if (PlayerOne.Score <= 2)
                 return _pointsToScore[PlayerOne.Score] + "-All";
@@ -64,7 +64,7 @@ namespace Tennis
             return "Deuce";
         }
 
-        public string GetAdvantageOrWinScore()
+        private string GetAdvantageOrWinScore()
         {
             var scoresDelta = Math.Abs(PlayerOne.Score - PlayerTwo.Score);
             var leadingPlayerName = PlayerOne.Score > PlayerTwo.Score ? "player1" : "player2";
@@ -75,21 +75,20 @@ namespace Tennis
             return $"Win for {leadingPlayerName}";
         }
 
-        public string GetOngoingScore()
+        private string GetOngoingScore()
         {
             return GetIndividualScore(PlayerOne.Score) + "-" + GetIndividualScore(PlayerTwo.Score);
         }
-
 
     }
 
     public class TennisGame1 : ITennisGame
     {
-        private readonly Players _players;
+        private readonly ScoreBoard _scoreBoard;
 
         public TennisGame1()
         {
-            _players = new Players(new Player(), new Player());
+            _scoreBoard = new ScoreBoard(new Player(), new Player());
         }
 
         public void WinPoint(string playerName)
@@ -97,17 +96,17 @@ namespace Tennis
             switch (playerName)
             {
                 case "player1":
-                    _players.PlayerOne.Score++;
+                    _scoreBoard.PlayerOne.Score++;
                     break;
                 case "player2":
-                    _players.PlayerTwo.Score++;
+                    _scoreBoard.PlayerTwo.Score++;
                     break;
                 default:
                     throw new PlayerNameUnknown();
             }
         }
 
-        public string GetScore() => _players.GetScore();
+        public string GetScore() => _scoreBoard.GetScore();
     }
 
     internal class PlayerNameUnknown : Exception
