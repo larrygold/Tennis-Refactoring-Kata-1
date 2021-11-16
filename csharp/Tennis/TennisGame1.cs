@@ -6,7 +6,7 @@ namespace Tennis
     {
         private readonly ScoreBoard _scoreBoard;
 
-        public TennisGame1()
+        public TennisGame1(Player playerOne, Player playerTwo)
         {
             _scoreBoard = new ScoreBoard(new Player(), new Player());
         }
