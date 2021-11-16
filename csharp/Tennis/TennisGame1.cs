@@ -32,7 +32,7 @@ namespace Tennis
         public bool HaveEqualScores() => PlayerOne.Score == PlayerTwo.Score;
         public bool OneHasAdvantageOrWins() => PlayerOne.Score >= 4 || PlayerTwo.Score >= 4;
 
-        public string GetIndividualScore(int points, TennisGame1 tennisGame1)
+        public string GetIndividualScore(int points)
         {
             if (_pointsToScore.ContainsKey(points))
                 return _pointsToScore[points];
@@ -85,12 +85,12 @@ namespace Tennis
 
         public string GetScore()
         {
-            if (IsEquality())
+            if (_players.HaveEqualScores())
             {
-                return GetEqualScore();
+                return _players.GetEqualScore();
             }
 
-            if (IsAdvantageOrWin())
+            if (_players.OneHasAdvantageOrWins())
             {
                 return GetAdvantageOrWinScore();
             }
@@ -110,7 +110,7 @@ namespace Tennis
 
         private string GetOngoingScore()
         {
-            return _players.GetIndividualScore(GetPlayerOne().Score, this) + "-" + _players.GetIndividualScore(GetPlayerTwo().Score, this);
+            return _players.GetIndividualScore(GetPlayerOne().Score) + "-" + _players.GetIndividualScore(GetPlayerTwo().Score);
         }
 
         private string GetAdvantageOrWinScore()
@@ -122,21 +122,6 @@ namespace Tennis
                 return $"Advantage {leadingPlayerName}";
 
             return $"Win for {leadingPlayerName}";
-        }
-
-        private string GetEqualScore()
-        {
-            return _players.GetEqualScore();
-        }
-
-        private bool IsAdvantageOrWin()
-        {
-            return _players.OneHasAdvantageOrWins();
-        }
-
-        private bool IsEquality()
-        {
-            return _players.HaveEqualScores();
         }
     }
 
