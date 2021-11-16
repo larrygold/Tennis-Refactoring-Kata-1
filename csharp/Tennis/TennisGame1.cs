@@ -9,6 +9,37 @@ namespace Tennis
         public int Score { get; set; }
     }
 
+    public class EqualScore : IScore
+    {
+        private int _points;
+        private readonly Dictionary<int, string> _pointsToScore;
+
+        public EqualScore(int points)
+        {
+            _pointsToScore = new()
+            {
+                { 0, "Love" },
+                { 1, "Fifteen" },
+                { 2, "Thirty" },
+                { 3, "Forty" }
+            };
+        }
+
+        public string Get()
+        {
+            if (_points <= 2)
+                return _pointsToScore[_points] + "-All";
+
+            return "Deuce";
+        }
+
+    }
+
+    public interface IScore
+    {
+
+    }
+
     public class ScoreBoard
     {
         private readonly Dictionary<int, string> _pointsToScore;
