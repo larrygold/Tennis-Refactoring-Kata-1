@@ -9,35 +9,26 @@ namespace Tennis
         public int Points { get; set; }
     }
 
-    public class EqualScore : IScore
+    public class EqualScore : Score
     {
         private Player _playerOne;
-
-        private readonly Dictionary<int, string> _pointsToScore;
 
         public EqualScore(int points, Player playerOne)
         {
             _playerOne = playerOne;
-            _pointsToScore = new()
-            {
-                { 0, "Love" },
-                { 1, "Fifteen" },
-                { 2, "Thirty" },
-                { 3, "Forty" }
-            };
         }
 
-        public string Get()
+        public override string Get()
         {
             if (_playerOne.Points <= 2)
-                return _pointsToScore[_playerOne.Points] + "-All";
+                return PointsToScore[_playerOne.Points] + "-All";
 
             return "Deuce";
         }
 
     }
 
-    public class AdvantageOrWinScore : IScore
+    public class AdvantageOrWinScore : Score
     {
         private Player _playerOne;
         private Player _playerTwo;
@@ -46,7 +37,7 @@ namespace Tennis
             _playerOne = playerOne;
             _playerTwo = playerTwo;
         }
-        public string Get()
+        public override string Get()
         {
             var scoresDelta = Math.Abs(_playerOne.Points - _playerTwo.Points);
             var leadingPlayerName = _playerOne.Points > _playerTwo.Points ? "player1" : "player2";
@@ -58,49 +49,45 @@ namespace Tennis
         }
     }
 
-    public class OngoingScore : IScore
+    public class OngoingScore : Score
     {
         private readonly Player _playerOne;
         private readonly Player _playerTwo;
-        private readonly Dictionary<int, string> _pointsToScore;
 
         public OngoingScore(Player playerOne, Player playerTwo)
         {
             _playerOne = playerOne;
             _playerTwo = playerTwo;
-            _pointsToScore = new()
-            {
-                { 0, "Love" },
-                { 1, "Fifteen" },
-                { 2, "Thirty" },
-                { 3, "Forty" }
-            };
-
         }
 
-        public string Get()
+        public override string Get()
         {
             return GetIndividualScore(_playerOne.Points) + "-" + GetIndividualScore(_playerTwo.Points);
         }
 
         private string GetIndividualScore(int points)
         {
-            if (_pointsToScore.ContainsKey(points))
-                return _pointsToScore[points];
+            if (PointsToScore.ContainsKey(points))
+                return PointsToScore[points];
 
             throw new Exception();
         }
     }
 
-    public interface IScore
+    public abstract class Score
     {
-        public string Get();
+        protected readonly Dictionary<int, string> PointsToScore = new()
+        {
+            { 0, "Love" },
+            { 1, "Fifteen" },
+            { 2, "Thirty" },
+            { 3, "Forty" }
+        };
+        public abstract string Get();
     }
 
     public class ScoreBoard
     {
-        private readonly Dictionary<int, string> _pointsToScore;
-
         public Player PlayerOne { get; set; }
         public Player PlayerTwo { get; set; }
 
@@ -108,13 +95,6 @@ namespace Tennis
         {
             PlayerOne = playerOne;
             PlayerTwo = playerTwo;
-            _pointsToScore = new()
-            {
-                { 0, "Love" },
-                { 1, "Fifteen" },
-                { 2, "Thirty" },
-                { 3, "Forty" }
-            };
         }
 
         public string GetScore()
