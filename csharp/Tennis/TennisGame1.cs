@@ -11,13 +11,7 @@ namespace Tennis
 
     class TennisGame1 : ITennisGame
     {
-        private int _scorePlayerTwo
-        {
-            get => _playerTwo.Score;
-            set => _playerTwo.Score = value;
-        }
-
-        private  Dictionary<int, string> PointsToScore;
+        private readonly Dictionary<int, string> _pointsToScore;
 
         private readonly Player _playerOne;
 
@@ -27,7 +21,7 @@ namespace Tennis
         {
             _playerOne = new Player();
             _playerTwo = new Player();
-            PointsToScore = new()
+            _pointsToScore = new()
             {
                 {0, "Love"},
                 {1, "Fifteen"},
@@ -41,7 +35,7 @@ namespace Tennis
             if (playerName == "player1")
                 _playerOne.Score ++;
             else
-                _scorePlayerTwo ++;
+                _playerTwo.Score++;
         }
 
         public string GetScore()
@@ -61,13 +55,13 @@ namespace Tennis
 
         private string GetOngoingScore()
         {
-            return GetIndividualScore(_playerOne.Score) + "-" + GetIndividualScore(_scorePlayerTwo);
+            return GetIndividualScore(_playerOne.Score) + "-" + GetIndividualScore(_playerTwo.Score);
         }
 
         private string GetAdvantageOrWinScore()
         {
-            var scoresDelta = Math.Abs(_playerOne.Score - _scorePlayerTwo);
-            var leadingPlayerName = _playerOne.Score > _scorePlayerTwo ? "player1" : "player2";
+            var scoresDelta = Math.Abs(_playerOne.Score - _playerTwo.Score);
+            var leadingPlayerName = _playerOne.Score > _playerTwo.Score ? "player1" : "player2";
 
             if (scoresDelta == 1)
                 return $"Advantage {leadingPlayerName}";
@@ -78,27 +72,27 @@ namespace Tennis
         private string GetEqualScore()
         {
             if (_playerOne.Score <= 2)
-                return PointsToScore[_playerOne.Score] + "-All";
+                return _pointsToScore[_playerOne.Score] + "-All";
 
             return "Deuce";
         }
 
         private string GetIndividualScore(int points)
         {
-            if (PointsToScore.ContainsKey(points))
-                return PointsToScore[points];
+            if (_pointsToScore.ContainsKey(points))
+                return _pointsToScore[points];
 
             throw new Exception();
         }
 
         private bool IsAdvantageOrWin()
         {
-            return _playerOne.Score >= 4 || _scorePlayerTwo >= 4;
+            return _playerOne.Score >= 4 || _playerTwo.Score >= 4;
         }
 
         private bool IsEquality()
         {
-            return _playerOne.Score == _scorePlayerTwo;
+            return _playerOne.Score == _playerTwo.Score;
         }
     }
 }
