@@ -39,6 +39,15 @@ namespace Tennis
 
             throw new Exception();
         }
+
+        public string GetEqualScore()
+        {
+            if (PlayerOne.Score <= 2)
+                return _pointsToScore[PlayerOne.Score] + "-All";
+
+            return "Deuce";
+        }
+
     }
 
     public class TennisGame1 : ITennisGame
@@ -117,10 +126,7 @@ namespace Tennis
 
         private string GetEqualScore()
         {
-            if (GetPlayerOne().Score <= 2)
-                return _pointsToScore[GetPlayerOne().Score] + "-All";
-
-            return "Deuce";
+            return _players.GetEqualScore();
         }
 
         private bool IsAdvantageOrWin()
