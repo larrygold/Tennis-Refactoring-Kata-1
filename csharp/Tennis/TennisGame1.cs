@@ -129,26 +129,12 @@ namespace Tennis
                 return new AdvantageOrWinScore(PlayerOne, PlayerTwo).Get();
             }
 
-            return GetOngoingScore();
+            return new OngoingScore(PlayerOne, PlayerTwo).Get();
         }
 
         private bool HaveEqualScores() => PlayerOne.Points == PlayerTwo.Points;
 
         private bool OneHasAdvantageOrWins() => PlayerOne.Points >= 4 || PlayerTwo.Points >= 4;
-
-        private string GetIndividualScore(int points)
-        {
-            if (_pointsToScore.ContainsKey(points))
-                return _pointsToScore[points];
-
-            throw new Exception();
-        }
-
-        private string GetOngoingScore()
-        {
-            return GetIndividualScore(PlayerOne.Points) + "-" + GetIndividualScore(PlayerTwo.Points);
-        }
-
     }
 
     public class TennisGame1 : ITennisGame
