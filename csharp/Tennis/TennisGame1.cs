@@ -1,63 +1,67 @@
+using System;
+
 namespace Tennis
 {
     class TennisGame1 : ITennisGame
     {
-        private int m_score1 = 0;
-        private int m_score2 = 0;
-        private string player1Name;
-        private string player2Name;
+        private int _scorePlayerOne;
+        private int _scorePlayerTwo;
 
-        public TennisGame1(string player1Name, string player2Name)
-        {
-            this.player1Name = player1Name;
-            this.player2Name = player2Name;
-        }
-
-        public void WonPoint(string playerName)
+        public void WinPoint(string playerName)
         {
             if (playerName == "player1")
-                m_score1 += 1;
+                _scorePlayerOne ++;
             else
-                m_score2 += 1;
+                _scorePlayerTwo ++;
         }
 
         public string GetScore()
         {
-            string score = "";
-            var tempScore = 0;
-            if (m_score1 == m_score2)
+            if (IsEquality())
             {
-                switch (m_score1)
+                switch (_scorePlayerOne)
                 {
                     case 0:
-                        score = "Love-All";
-                        break;
+                        return "Love-All";
                     case 1:
-                        score = "Fifteen-All";
-                        break;
+                        return "Fifteen-All";
                     case 2:
-                        score = "Thirty-All";
-                        break;
+                        return "Thirty-All";
                     default:
-                        score = "Deuce";
-                        break;
-
+                        return "Deuce";
                 }
             }
-            else if (m_score1 >= 4 || m_score2 >= 4)
+
+            var score = "";
+            if (IsAdvantageOrWin())
             {
-                var minusResult = m_score1 - m_score2;
+                var scoresDelta = Math.Abs(_scorePlayerOne - _scorePlayerTwo);
+                var leadingPlayerName = _scorePlayerOne > _scorePlayerTwo ? "player1" : "player2";
+
+                if (scoresDelta == 1)
+                {
+                    return $"Advantage {leadingPlayerName}";
+                }
+                else
+                {
+                    return $"Win for {leadingPlayerName}";
+                }
+
+                /*
+                var minusResult = _scorePlayerOne - _scorePlayerTwo;
                 if (minusResult == 1) score = "Advantage player1";
                 else if (minusResult == -1) score = "Advantage player2";
                 else if (minusResult >= 2) score = "Win for player1";
                 else score = "Win for player2";
+            */
             }
             else
             {
                 for (var i = 1; i < 3; i++)
                 {
-                    if (i == 1) tempScore = m_score1;
-                    else { score += "-"; tempScore = m_score2; }
+                    var tempScore = 0;
+                    if (i == 1) tempScore = _scorePlayerOne;
+                    else { score += "-"; tempScore = _scorePlayerTwo; }
                     switch (tempScore)
                     {
                         case 0:
@@ -76,6 +80,16 @@ namespace Tennis
                 }
             }
             return score;
+        }
+
+        private bool IsAdvantageOrWin()
+        {
+            return _scorePlayerOne >= 4 || _scorePlayerTwo >= 4;
+        }
+
+        private bool IsEquality()
+        {
+            return _scorePlayerOne == _scorePlayerTwo;
         }
     }
 }
