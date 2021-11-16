@@ -11,12 +11,17 @@ namespace Tennis
 
     public class EqualScore : IScore
     {
-        private int _points;
+        private Player _playerOne;
+
+        private int _points
+        {
+            get => _playerOne.Points;
+        }
         private readonly Dictionary<int, string> _pointsToScore;
 
-        public EqualScore(int points)
+        public EqualScore(int points, Player playerOne)
         {
-            _points = points;
+            _playerOne = playerOne;
             _pointsToScore = new()
             {
                 { 0, "Love" },
@@ -34,6 +39,21 @@ namespace Tennis
             return "Deuce";
         }
 
+    }
+
+    public class AdvantageOrWinScore : IScore
+    {
+        private int _points1;
+        private int _points2;
+        public AdvantageOrWinScore(int points1, int points2)
+        {
+            _points1 = points1;
+            _points2 = points2;
+        }
+        public string Get()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public interface IScore
@@ -65,7 +85,7 @@ namespace Tennis
         {
             if (HaveEqualScores())
             {
-                return new EqualScore(PlayerOne.Points).Get();
+                return new EqualScore(PlayerOne.Points, PlayerOne).Get();
             }
 
             if (OneHasAdvantageOrWins())
@@ -86,14 +106,6 @@ namespace Tennis
                 return _pointsToScore[points];
 
             throw new Exception();
-        }
-
-        private string GetEqualScore()
-        {
-            if (PlayerOne.Points <= 2)
-                return _pointsToScore[PlayerOne.Points] + "-All";
-
-            return "Deuce";
         }
 
         private string GetAdvantageOrWinScore()
