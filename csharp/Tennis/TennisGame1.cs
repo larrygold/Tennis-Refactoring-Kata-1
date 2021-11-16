@@ -41,7 +41,7 @@ namespace Tennis
 
         private string GetOngoingScore()
         {
-            return GetScore(_scorePlayerOne) + "-" + GetScore(_scorePlayerTwo);
+            return GetIndividualScore(_scorePlayerOne) + "-" + GetIndividualScore(_scorePlayerTwo);
         }
 
         private string GetAdvantageOrWinScore()
@@ -63,10 +63,10 @@ namespace Tennis
             return "Deuce";
         }
 
-        private static string GetScore(int tempScore)
+        private static string GetIndividualScore(int points)
         {
-            if (PointsToScore.ContainsKey(tempScore))
-                return PointsToScore[tempScore];
+            if (PointsToScore.ContainsKey(points))
+                return PointsToScore[points];
 
             throw new Exception();
         }
