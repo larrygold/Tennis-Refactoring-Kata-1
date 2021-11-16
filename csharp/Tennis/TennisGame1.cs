@@ -30,16 +30,6 @@ namespace Tennis
 
         private readonly Players _players;
 
-        private Player _playerOne
-        {
-            get => _players._playerOne;
-        }
-
-        private Player _playerTwo
-        {
-            get => _players._playerTwo;
-        }
-
         public TennisGame1()
         {
             _players = new Players(new Player(), new Player());
@@ -52,15 +42,25 @@ namespace Tennis
             };
         }
 
+        private Player GetPlayerOne()
+        {
+            return _players._playerOne;
+        }
+
+        private Player GetPlayerTwo()
+        {
+            return _players._playerTwo;
+        }
+
         public void WinPoint(string playerName)
         {
             switch (playerName)
             {
                 case "player1":
-                    _playerOne.Score ++;
+                    GetPlayerOne().Score ++;
                     break;
                 case "player2":
-                    _playerTwo.Score++;
+                    GetPlayerTwo().Score++;
                     break;
                 default:
                     throw new PlayerNameUnknown();
@@ -84,13 +84,13 @@ namespace Tennis
 
         private string GetOngoingScore()
         {
-            return GetIndividualScore(_playerOne.Score) + "-" + GetIndividualScore(_playerTwo.Score);
+            return GetIndividualScore(GetPlayerOne().Score) + "-" + GetIndividualScore(GetPlayerTwo().Score);
         }
 
         private string GetAdvantageOrWinScore()
         {
-            var scoresDelta = Math.Abs(_playerOne.Score - _playerTwo.Score);
-            var leadingPlayerName = _playerOne.Score > _playerTwo.Score ? "player1" : "player2";
+            var scoresDelta = Math.Abs(GetPlayerOne().Score - GetPlayerTwo().Score);
+            var leadingPlayerName = GetPlayerOne().Score > GetPlayerTwo().Score ? "player1" : "player2";
 
             if (scoresDelta == 1)
                 return $"Advantage {leadingPlayerName}";
@@ -100,8 +100,8 @@ namespace Tennis
 
         private string GetEqualScore()
         {
-            if (_playerOne.Score <= 2)
-                return _pointsToScore[_playerOne.Score] + "-All";
+            if (GetPlayerOne().Score <= 2)
+                return _pointsToScore[GetPlayerOne().Score] + "-All";
 
             return "Deuce";
         }
