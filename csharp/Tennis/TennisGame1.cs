@@ -32,6 +32,22 @@ namespace Tennis
         public bool HaveEqualScores() => PlayerOne.Score == PlayerTwo.Score;
         public bool OneHasAdvantageOrWins() => PlayerOne.Score >= 4 || PlayerTwo.Score >= 4;
 
+        public string GetScore()
+        {
+            if (HaveEqualScores())
+            {
+                return GetEqualScore();
+            }
+
+            if (OneHasAdvantageOrWins())
+            {
+                return GetAdvantageOrWinScore();
+            }
+
+            return GetOngoingScore();
+        }
+
+
         public string GetIndividualScore(int points)
         {
             if (_pointsToScore.ContainsKey(points))
@@ -81,40 +97,17 @@ namespace Tennis
             switch (playerName)
             {
                 case "player1":
-                    GetPlayerOne().Score ++;
+                    _players.PlayerOne.Score++;
                     break;
                 case "player2":
-                    GetPlayerTwo().Score++;
+                    _players.PlayerTwo.Score++;
                     break;
                 default:
                     throw new PlayerNameUnknown();
             }
         }
 
-        public string GetScore()
-        {
-            if (_players.HaveEqualScores())
-            {
-                return _players.GetEqualScore();
-            }
-
-            if (_players.OneHasAdvantageOrWins())
-            {
-                return _players.GetAdvantageOrWinScore();
-            }
-
-            return _players.GetOngoingScore();
-        }
-
-        private Player GetPlayerOne()
-        {
-            return _players.PlayerOne;
-        }
-
-        private Player GetPlayerTwo()
-        {
-            return _players.PlayerTwo;
-        }
+        public string GetScore() => _players.GetScore();
     }
 
     internal class PlayerNameUnknown : Exception
