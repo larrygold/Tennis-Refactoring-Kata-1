@@ -28,24 +28,39 @@ namespace Tennis
         {
             if (IsEquality())
             {
-                if (_scorePlayerOne <= 2)
-                    return PointsToScore[_scorePlayerOne] + "-All";
-
-                return "Deuce";
+                return GetEqualScore();
             }
 
             if (IsAdvantageOrWin())
             {
-                var scoresDelta = Math.Abs(_scorePlayerOne - _scorePlayerTwo);
-                var leadingPlayerName = _scorePlayerOne > _scorePlayerTwo ? "player1" : "player2";
-
-                if (scoresDelta == 1)
-                    return $"Advantage {leadingPlayerName}";
-
-                return $"Win for {leadingPlayerName}";
+                return GetAdvantageOrWinScore();
             }
 
+            return GetOngoingScore();
+        }
+
+        private string GetOngoingScore()
+        {
             return GetScore(_scorePlayerOne) + "-" + GetScore(_scorePlayerTwo);
+        }
+
+        private string GetAdvantageOrWinScore()
+        {
+            var scoresDelta = Math.Abs(_scorePlayerOne - _scorePlayerTwo);
+            var leadingPlayerName = _scorePlayerOne > _scorePlayerTwo ? "player1" : "player2";
+
+            if (scoresDelta == 1)
+                return $"Advantage {leadingPlayerName}";
+
+            return $"Win for {leadingPlayerName}";
+        }
+
+        private string GetEqualScore()
+        {
+            if (_scorePlayerOne <= 2)
+                return PointsToScore[_scorePlayerOne] + "-All";
+
+            return "Deuce";
         }
 
         private static string GetScore(int tempScore)
