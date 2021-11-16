@@ -11,8 +11,8 @@ namespace Tennis
 
     public class Players
     {
-        private Player _playerOne;
-        private Player _playerTwo;
+        public Player _playerOne { get; set; }
+        public Player _playerTwo { get; set; }
 
         public Players(Player playerOne, Player playerTwo)
         {
@@ -21,6 +21,7 @@ namespace Tennis
         }
 
         public bool HaveEqualScores() => _playerOne.Score == _playerTwo.Score;
+        public bool OneHasAdvantageOrWins() => _playerOne.Score >= 4 || _playerTwo.Score >= 4;
     }
 
     public class TennisGame1 : ITennisGame
@@ -28,14 +29,20 @@ namespace Tennis
         private readonly Dictionary<int, string> _pointsToScore;
 
         private readonly Players _players;
-        private readonly Player _playerOne;
-        private readonly Player _playerTwo;
+
+        private Player _playerOne
+        {
+            get => _players._playerOne;
+        }
+
+        private Player _playerTwo
+        {
+            get => _players._playerTwo;
+        }
 
         public TennisGame1()
         {
-            _playerOne = new Player();
-            _playerTwo = new Player();
-            _players = new Players(_playerOne, _playerTwo);
+            _players = new Players(new Player(), new Player());
             _pointsToScore = new()
             {
                 {0, "Love"},
@@ -109,7 +116,7 @@ namespace Tennis
 
         private bool IsAdvantageOrWin()
         {
-            return _playerOne.Score >= 4 || _playerTwo.Score >= 4;
+            return _players.OneHasAdvantageOrWins();
         }
 
         private bool IsEquality()
