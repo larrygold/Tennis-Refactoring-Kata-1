@@ -11,7 +11,7 @@ namespace Tennis
 
     public class EqualScore : Score
     {
-        public EqualScore(int points, Player playerOne) : base(playerOne, playerOne)
+        public EqualScore(Player playerOne) : base(playerOne)
         {
         }
 
@@ -80,6 +80,12 @@ namespace Tennis
             PlayerOne = playerOne;
             PlayerTwo = playerTwo;
         }
+
+        protected Score(Player playerOne)
+        {
+            PlayerOne = playerOne;
+        }
+
         public abstract string Get();
     }
 
@@ -98,7 +104,7 @@ namespace Tennis
         {
             if (HaveEqualScores())
             {
-                return new EqualScore(PlayerOne.Points, PlayerOne).Get();
+                return new EqualScore(PlayerOne).Get();
             }
 
             if (OneHasAdvantageOrWins())
