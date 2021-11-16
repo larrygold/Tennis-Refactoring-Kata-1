@@ -11,17 +11,34 @@ namespace Tennis
 
     public class Players
     {
-        public Player _playerOne { get; set; }
-        public Player _playerTwo { get; set; }
+        private readonly Dictionary<int, string> _pointsToScore;
+
+        public Player PlayerOne { get; set; }
+        public Player PlayerTwo { get; set; }
 
         public Players(Player playerOne, Player playerTwo)
         {
-            _playerOne = playerOne;
-            _playerTwo = playerTwo;
+            PlayerOne = playerOne;
+            PlayerTwo = playerTwo;
+            _pointsToScore = new()
+            {
+                { 0, "Love" },
+                { 1, "Fifteen" },
+                { 2, "Thirty" },
+                { 3, "Forty" }
+            };
         }
 
-        public bool HaveEqualScores() => _playerOne.Score == _playerTwo.Score;
-        public bool OneHasAdvantageOrWins() => _playerOne.Score >= 4 || _playerTwo.Score >= 4;
+        public bool HaveEqualScores() => PlayerOne.Score == PlayerTwo.Score;
+        public bool OneHasAdvantageOrWins() => PlayerOne.Score >= 4 || PlayerTwo.Score >= 4;
+
+        public string GetIndividualScore(int points, TennisGame1 tennisGame1)
+        {
+            if (_pointsToScore.ContainsKey(points))
+                return _pointsToScore[points];
+
+            throw new Exception();
+        }
     }
 
     public class TennisGame1 : ITennisGame
@@ -40,16 +57,6 @@ namespace Tennis
                 {2, "Thirty"},
                 {3, "Forty"}
             };
-        }
-
-        private Player GetPlayerOne()
-        {
-            return _players._playerOne;
-        }
-
-        private Player GetPlayerTwo()
-        {
-            return _players._playerTwo;
         }
 
         public void WinPoint(string playerName)
@@ -82,9 +89,19 @@ namespace Tennis
             return GetOngoingScore();
         }
 
+        private Player GetPlayerOne()
+        {
+            return _players.PlayerOne;
+        }
+
+        private Player GetPlayerTwo()
+        {
+            return _players.PlayerTwo;
+        }
+
         private string GetOngoingScore()
         {
-            return GetIndividualScore(GetPlayerOne().Score) + "-" + GetIndividualScore(GetPlayerTwo().Score);
+            return _players.GetIndividualScore(GetPlayerOne().Score, this) + "-" + _players.GetIndividualScore(GetPlayerTwo().Score, this);
         }
 
         private string GetAdvantageOrWinScore()
@@ -104,14 +121,6 @@ namespace Tennis
                 return _pointsToScore[GetPlayerOne().Score] + "-All";
 
             return "Deuce";
-        }
-
-        private string GetIndividualScore(int points)
-        {
-            if (_pointsToScore.ContainsKey(points))
-                return _pointsToScore[points];
-
-            throw new Exception();
         }
 
         private bool IsAdvantageOrWin()
