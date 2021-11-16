@@ -11,17 +11,14 @@ namespace Tennis
 
     public class EqualScore : Score
     {
-        private Player _playerOne;
-
-        public EqualScore(int points, Player playerOne)
+        public EqualScore(int points, Player playerOne) : base(playerOne, playerOne)
         {
-            _playerOne = playerOne;
         }
 
         public override string Get()
         {
-            if (_playerOne.Points <= 2)
-                return PointsToScore[_playerOne.Points] + "-All";
+            if (PlayerOne.Points <= 2)
+                return PointsToScore[PlayerOne.Points] + "-All";
 
             return "Deuce";
         }
@@ -30,17 +27,13 @@ namespace Tennis
 
     public class AdvantageOrWinScore : Score
     {
-        private Player _playerOne;
-        private Player _playerTwo;
-        public AdvantageOrWinScore(Player playerOne, Player playerTwo)
+        public AdvantageOrWinScore(Player playerOne, Player playerTwo) : base(playerOne, playerTwo)
         {
-            _playerOne = playerOne;
-            _playerTwo = playerTwo;
         }
         public override string Get()
         {
-            var scoresDelta = Math.Abs(_playerOne.Points - _playerTwo.Points);
-            var leadingPlayerName = _playerOne.Points > _playerTwo.Points ? "player1" : "player2";
+            var scoresDelta = Math.Abs(PlayerOne.Points - PlayerTwo.Points);
+            var leadingPlayerName = PlayerOne.Points > PlayerTwo.Points ? "player1" : "player2";
 
             if (scoresDelta == 1)
                 return $"Advantage {leadingPlayerName}";
@@ -51,18 +44,13 @@ namespace Tennis
 
     public class OngoingScore : Score
     {
-        private readonly Player _playerOne;
-        private readonly Player _playerTwo;
-
-        public OngoingScore(Player playerOne, Player playerTwo)
+        public OngoingScore(Player playerOne, Player playerTwo) : base (playerOne, playerTwo)
         {
-            _playerOne = playerOne;
-            _playerTwo = playerTwo;
         }
 
         public override string Get()
         {
-            return GetIndividualScore(_playerOne.Points) + "-" + GetIndividualScore(_playerTwo.Points);
+            return GetIndividualScore(PlayerOne.Points) + "-" + GetIndividualScore(PlayerTwo.Points);
         }
 
         private string GetIndividualScore(int points)
@@ -83,6 +71,15 @@ namespace Tennis
             { 2, "Thirty" },
             { 3, "Forty" }
         };
+
+        protected Player PlayerOne;
+        protected Player PlayerTwo;
+
+        protected Score(Player playerOne, Player playerTwo)
+        {
+            PlayerOne = playerOne;
+            PlayerTwo = playerTwo;
+        }
         public abstract string Get();
     }
 
