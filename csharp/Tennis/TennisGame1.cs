@@ -4,15 +4,30 @@ using System.Reflection.Metadata.Ecma335;
 
 namespace Tennis
 {
-    class Player
+    public class Player
     {
         public int Score { get; set; }
     }
 
-    class TennisGame1 : ITennisGame
+    public class Players
+    {
+        private Player _playerOne;
+        private Player _playerTwo;
+
+        public Players(Player playerOne, Player playerTwo)
+        {
+            _playerOne = playerOne;
+            _playerTwo = playerTwo;
+        }
+
+        public bool HaveEqualScores() => _playerOne.Score == _playerTwo.Score;
+    }
+
+    public class TennisGame1 : ITennisGame
     {
         private readonly Dictionary<int, string> _pointsToScore;
 
+        private readonly Players _players;
         private readonly Player _playerOne;
         private readonly Player _playerTwo;
 
@@ -20,6 +35,7 @@ namespace Tennis
         {
             _playerOne = new Player();
             _playerTwo = new Player();
+            _players = new Players(_playerOne, _playerTwo);
             _pointsToScore = new()
             {
                 {0, "Love"},
@@ -31,12 +47,17 @@ namespace Tennis
 
         public void WinPoint(string playerName)
         {
-            if (playerName == "player1")
-                _playerOne.Score ++;
-            else if (playerName == "player2")
-                _playerTwo.Score++;
-            else
-                throw new PlayerNameUnknown();
+            switch (playerName)
+            {
+                case "player1":
+                    _playerOne.Score ++;
+                    break;
+                case "player2":
+                    _playerTwo.Score++;
+                    break;
+                default:
+                    throw new PlayerNameUnknown();
+            }
         }
 
         public string GetScore()
@@ -93,7 +114,7 @@ namespace Tennis
 
         private bool IsEquality()
         {
-            return _playerOne.Score == _playerTwo.Score;
+            return _players.HaveEqualScores();
         }
     }
 
