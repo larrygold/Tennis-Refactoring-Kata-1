@@ -48,7 +48,13 @@ namespace Tennis
         }
         public string Get()
         {
-            throw new NotImplementedException();
+            var scoresDelta = Math.Abs(_playerOne.Points - _playerTwo.Points);
+            var leadingPlayerName = _playerOne.Points > _playerTwo.Points ? "player1" : "player2";
+
+            if (scoresDelta == 1)
+                return $"Advantage {leadingPlayerName}";
+
+            return $"Win for {leadingPlayerName}";
         }
     }
 
@@ -86,7 +92,7 @@ namespace Tennis
 
             if (OneHasAdvantageOrWins())
             {
-                return GetAdvantageOrWinScore();
+                return new AdvantageOrWinScore(PlayerOne, PlayerTwo).Get();
             }
 
             return GetOngoingScore();
