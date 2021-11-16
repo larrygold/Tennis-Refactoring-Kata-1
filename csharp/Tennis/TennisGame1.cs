@@ -69,20 +69,11 @@ namespace Tennis
 
     public class TennisGame1 : ITennisGame
     {
-        private readonly Dictionary<int, string> _pointsToScore;
-
         private readonly Players _players;
 
         public TennisGame1()
         {
             _players = new Players(new Player(), new Player());
-            _pointsToScore = new()
-            {
-                {0, "Love"},
-                {1, "Fifteen"},
-                {2, "Thirty"},
-                {3, "Forty"}
-            };
         }
 
         public void WinPoint(string playerName)
