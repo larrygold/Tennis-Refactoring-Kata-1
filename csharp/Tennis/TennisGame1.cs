@@ -48,6 +48,18 @@ namespace Tennis
             return "Deuce";
         }
 
+        public string GetAdvantageOrWinScore()
+        {
+            var scoresDelta = Math.Abs(PlayerOne.Score - PlayerTwo.Score);
+            var leadingPlayerName = PlayerOne.Score > PlayerTwo.Score ? "player1" : "player2";
+
+            if (scoresDelta == 1)
+                return $"Advantage {leadingPlayerName}";
+
+            return $"Win for {leadingPlayerName}";
+        }
+
+
     }
 
     public class TennisGame1 : ITennisGame
@@ -92,7 +104,7 @@ namespace Tennis
 
             if (_players.OneHasAdvantageOrWins())
             {
-                return GetAdvantageOrWinScore();
+                return _players.GetAdvantageOrWinScore();
             }
 
             return GetOngoingScore();
@@ -111,17 +123,6 @@ namespace Tennis
         private string GetOngoingScore()
         {
             return _players.GetIndividualScore(GetPlayerOne().Score) + "-" + _players.GetIndividualScore(GetPlayerTwo().Score);
-        }
-
-        private string GetAdvantageOrWinScore()
-        {
-            var scoresDelta = Math.Abs(GetPlayerOne().Score - GetPlayerTwo().Score);
-            var leadingPlayerName = GetPlayerOne().Score > GetPlayerTwo().Score ? "player1" : "player2";
-
-            if (scoresDelta == 1)
-                return $"Advantage {leadingPlayerName}";
-
-            return $"Win for {leadingPlayerName}";
         }
     }
 
