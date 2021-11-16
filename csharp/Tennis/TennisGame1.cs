@@ -14,7 +14,6 @@ namespace Tennis
         private readonly Dictionary<int, string> _pointsToScore;
 
         private readonly Player _playerOne;
-
         private readonly Player _playerTwo;
 
         public TennisGame1()
@@ -34,8 +33,10 @@ namespace Tennis
         {
             if (playerName == "player1")
                 _playerOne.Score ++;
-            else
+            else if (playerName == "player2")
                 _playerTwo.Score++;
+            else
+                throw new PlayerNameUnknown();
         }
 
         public string GetScore()
@@ -94,6 +95,10 @@ namespace Tennis
         {
             return _playerOne.Score == _playerTwo.Score;
         }
+    }
+
+    internal class PlayerNameUnknown : Exception
+    {
     }
 }
 
