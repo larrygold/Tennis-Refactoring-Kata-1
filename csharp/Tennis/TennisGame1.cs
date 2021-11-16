@@ -59,6 +59,11 @@ namespace Tennis
             return $"Win for {leadingPlayerName}";
         }
 
+        public string GetOngoingScore()
+        {
+            return GetIndividualScore(PlayerOne.Score) + "-" + GetIndividualScore(PlayerTwo.Score);
+        }
+
 
     }
 
@@ -107,7 +112,7 @@ namespace Tennis
                 return _players.GetAdvantageOrWinScore();
             }
 
-            return GetOngoingScore();
+            return _players.GetOngoingScore();
         }
 
         private Player GetPlayerOne()
@@ -118,11 +123,6 @@ namespace Tennis
         private Player GetPlayerTwo()
         {
             return _players.PlayerTwo;
-        }
-
-        private string GetOngoingScore()
-        {
-            return _players.GetIndividualScore(GetPlayerOne().Score) + "-" + _players.GetIndividualScore(GetPlayerTwo().Score);
         }
     }
 
