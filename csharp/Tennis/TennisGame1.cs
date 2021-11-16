@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Tennis
 {
@@ -47,21 +48,7 @@ namespace Tennis
             var tempScore = 0;
 
             tempScore = _scorePlayerOne;
-            switch (tempScore)
-            {
-                case 0:
-                    score += "Love";
-                    break;
-                case 1:
-                    score += "Fifteen";
-                    break;
-                case 2:
-                    score += "Thirty";
-                    break;
-                case 3:
-                    score += "Forty";
-                    break;
-            }
+            score = GetScore(tempScore);
 
             score += "-";
 
@@ -83,6 +70,22 @@ namespace Tennis
             }
 
             return score;
+        }
+
+        private static string GetScore(int tempScore)
+        {
+            var pointsToScore = new Dictionary<int, string>()
+            {
+                {0, "Love"},
+                {1, "Fifteen"},
+                {2, "Thirty"},
+                {3, "Forty"}
+            };
+
+            if (pointsToScore.ContainsKey(tempScore))
+                return pointsToScore[tempScore];
+
+            throw new Exception();
         }
 
         private bool IsAdvantageOrWin()
