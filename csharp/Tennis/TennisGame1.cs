@@ -8,6 +8,14 @@ namespace Tennis
         private int _scorePlayerOne;
         private int _scorePlayerTwo;
 
+        private static readonly Dictionary<int, string> PointsToScore = new()
+        {
+            {0, "Love"},
+            {1, "Fifteen"},
+            {2, "Thirty"},
+            {3, "Forty"}
+        };
+
         public void WinPoint(string playerName)
         {
             if (playerName == "player1")
@@ -20,17 +28,10 @@ namespace Tennis
         {
             if (IsEquality())
             {
-                switch (_scorePlayerOne)
-                {
-                    case 0:
-                        return "Love-All";
-                    case 1:
-                        return "Fifteen-All";
-                    case 2:
-                        return "Thirty-All";
-                    default:
-                        return "Deuce";
-                }
+                if (_scorePlayerOne <= 2)
+                    return PointsToScore[_scorePlayerOne] + "-All";
+
+                return "Deuce";
             }
 
             if (IsAdvantageOrWin())
@@ -44,46 +45,13 @@ namespace Tennis
                 return $"Win for {leadingPlayerName}";
             }
 
-            var score = "";
-            var tempScore = 0;
-
-            tempScore = _scorePlayerOne;
-            score = GetScore(tempScore);
-
-            score += "-";
-
-            tempScore = _scorePlayerTwo;
-            switch (tempScore)
-            {
-                case 0:
-                    score += "Love";
-                    break;
-                case 1:
-                    score += "Fifteen";
-                    break;
-                case 2:
-                    score += "Thirty";
-                    break;
-                case 3:
-                    score += "Forty";
-                    break;
-            }
-
-            return score;
+            return GetScore(_scorePlayerOne) + "-" + GetScore(_scorePlayerTwo);
         }
 
         private static string GetScore(int tempScore)
         {
-            var pointsToScore = new Dictionary<int, string>()
-            {
-                {0, "Love"},
-                {1, "Fifteen"},
-                {2, "Thirty"},
-                {3, "Forty"}
-            };
-
-            if (pointsToScore.ContainsKey(tempScore))
-                return pointsToScore[tempScore];
+            if (PointsToScore.ContainsKey(tempScore))
+                return PointsToScore[tempScore];
 
             throw new Exception();
         }
