@@ -3,11 +3,14 @@ using System.Collections.Generic;
 
 namespace Tennis
 {
-    class TennisGame1 : ITennisGame
+    public class Player
     {
-        private int _scorePlayerOne;
-        private int _scorePlayerTwo;
+        public int _scorePlayerOne { get; set; }
+        public int _scorePlayerTwo { get; set; }
+    }
 
+    public class TennisGame1 : ITennisGame
+    {
         private static readonly Dictionary<int, string> PointsToScore = new()
         {
             {0, "Love"},
@@ -16,12 +19,14 @@ namespace Tennis
             {3, "Forty"}
         };
 
+        private readonly Player _player = new Player();
+
         public void WinPoint(string playerName)
         {
             if (playerName == "player1")
-                _scorePlayerOne ++;
+                _player._scorePlayerOne ++;
             else
-                _scorePlayerTwo ++;
+                _player._scorePlayerTwo ++;
         }
 
         public string GetScore()
@@ -41,13 +46,13 @@ namespace Tennis
 
         private string GetOngoingScore()
         {
-            return GetIndividualScore(_scorePlayerOne) + "-" + GetIndividualScore(_scorePlayerTwo);
+            return GetIndividualScore(_player._scorePlayerOne) + "-" + GetIndividualScore(_player._scorePlayerTwo);
         }
 
         private string GetAdvantageOrWinScore()
         {
-            var scoresDelta = Math.Abs(_scorePlayerOne - _scorePlayerTwo);
-            var leadingPlayerName = _scorePlayerOne > _scorePlayerTwo ? "player1" : "player2";
+            var scoresDelta = Math.Abs(_player._scorePlayerOne - _player._scorePlayerTwo);
+            var leadingPlayerName = _player._scorePlayerOne > _player._scorePlayerTwo ? "player1" : "player2";
 
             if (scoresDelta == 1)
                 return $"Advantage {leadingPlayerName}";
@@ -57,8 +62,8 @@ namespace Tennis
 
         private string GetEqualScore()
         {
-            if (_scorePlayerOne <= 2)
-                return PointsToScore[_scorePlayerOne] + "-All";
+            if (_player._scorePlayerOne <= 2)
+                return PointsToScore[_player._scorePlayerOne] + "-All";
 
             return "Deuce";
         }
@@ -73,12 +78,12 @@ namespace Tennis
 
         private bool IsAdvantageOrWin()
         {
-            return _scorePlayerOne >= 4 || _scorePlayerTwo >= 4;
+            return _player._scorePlayerOne >= 4 || _player._scorePlayerTwo >= 4;
         }
 
         private bool IsEquality()
         {
-            return _scorePlayerOne == _scorePlayerTwo;
+            return _player._scorePlayerOne == _player._scorePlayerTwo;
         }
     }
 }
