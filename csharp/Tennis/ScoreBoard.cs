@@ -28,25 +28,6 @@ namespace Tennis
             }
 
             throw new Exception();
-
-            /*
-            if (HaveEqualScores())
-            {
-                return new EqualScore(PlayerOne).Get();
-            }
-            
-            if (OneHasAdvantageOrWins())
-            {
-                return new AdvantageOrWinScore(PlayerOne, PlayerTwo).Get();
-            }
-
-            return new OngoingScore(PlayerOne, PlayerTwo).Get();
-            */
-        
         }
-
-        private bool HaveEqualScores() => PlayerOne.Points == PlayerTwo.Points;
-
-        private bool OneHasAdvantageOrWins() => PlayerOne.Points >= 4 || PlayerTwo.Points >= 4;
     }
 }
