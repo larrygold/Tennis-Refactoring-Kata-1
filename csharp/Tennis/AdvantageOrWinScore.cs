@@ -17,5 +17,10 @@ namespace Tennis
 
             return $"Win for {leadingPlayerName}";
         }
+
+        public override bool ShouldUse()
+        {
+            return PlayerOne.Points >= 4 || PlayerTwo.Points >= 4;
+        }
     }
 }

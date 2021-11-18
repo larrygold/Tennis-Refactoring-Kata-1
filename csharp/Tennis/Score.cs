@@ -27,5 +27,8 @@ namespace Tennis
         }
 
         public abstract string Get();
+
+        public abstract bool ShouldUse();
+
     }
 }

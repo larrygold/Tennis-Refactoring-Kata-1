@@ -2,7 +2,7 @@ namespace Tennis
 {
     public class EqualScore : Score
     {
-        public EqualScore(Player playerOne) : base(playerOne)
+        public EqualScore(Player playerOne, Player playerTwo) : base(playerOne, playerTwo)
         {
         }
 
@@ -14,5 +14,9 @@ namespace Tennis
             return "Deuce";
         }
 
+        public override bool ShouldUse()
+        {
+            return PlayerOne.Points == PlayerTwo.Points;
+        }
     }
 }

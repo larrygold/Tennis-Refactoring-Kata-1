@@ -13,6 +13,11 @@ namespace Tennis
             return GetIndividualScore(PlayerOne.Points) + "-" + GetIndividualScore(PlayerTwo.Points);
         }
 
+        public override bool ShouldUse()
+        {
+            return true;
+        }
+
         private string GetIndividualScore(int points)
         {
             if (PointsToScore.ContainsKey(points))
