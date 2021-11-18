@@ -1,3 +1,4 @@
+/*
 namespace Tennis
 {
     public class TennisGame3 : ITennisGame
@@ -31,9 +32,9 @@ namespace Tennis
             }
         }
 
-        public void WinPoint(string playerName)
+        public void WinPoint(Player player)
         {
-            if (playerName == "player1")
+            if (player == "player1")
                 this.p1 += 1;
             else
                 this.p2 += 1;
@@ -41,4 +42,5 @@ namespace Tennis
 
     }
 }
+*/
 

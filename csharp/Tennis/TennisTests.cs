@@ -11,10 +11,13 @@ namespace Tennis
         [ClassData(typeof(TestDataGenerator))]
         public void Tennis1Test(int p1, int p2, string expected)
         {
-            var game = new TennisGame1(new Player(), new Player());
-            CheckAllScores(game, p1, p2, expected);
+            var playerOne = new Player();
+            var playerTwo = new Player();
+            var game = new TennisGame1(playerOne, playerTwo);
+            CheckAllScores(game, p1, p2, expected, playerOne, playerTwo);
         }
 
+        /*
         [Theory]
         [ClassData(typeof(TestDataGenerator))]
         public void Tennis2Test(int p1, int p2, string expected)
@@ -30,16 +33,18 @@ namespace Tennis
             var game = new TennisGame3("player1", "player2");
             CheckAllScores(game, p1, p2, expected);
         }
+        */
 
-        private void CheckAllScores(ITennisGame game, int player1Score, int player2Score, string expectedScore)
+        private void CheckAllScores(ITennisGame game, int player1Score, int player2Score, string expectedScore,
+            Player playerOne, Player playerTwo)
         {
             var highestScore = Math.Max(player1Score, player2Score);
             for (var i = 0; i < highestScore; i++)
             {
                 if (i < player1Score)
-                    game.WinPoint("player1");
+                    game.WinPoint(playerOne);
                 if (i < player2Score)
-                    game.WinPoint("player2");
+                    game.WinPoint(playerTwo);
             }
 
             Assert.Equal(expectedScore, game.GetScore());

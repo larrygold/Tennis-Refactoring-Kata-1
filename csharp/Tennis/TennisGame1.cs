@@ -8,22 +8,15 @@ namespace Tennis
 
         public TennisGame1(Player playerOne, Player playerTwo)
         {
-            _scoreBoard = new ScoreBoard(new Player(), new Player());
+            _scoreBoard = new ScoreBoard(playerOne, playerTwo);
         }
 
-        public void WinPoint(string playerName)
+        public void WinPoint(Player player)
         {
-            switch (playerName)
-            {
-                case "player1":
-                    _scoreBoard.PlayerOne.Points++;
-                    break;
-                case "player2":
-                    _scoreBoard.PlayerTwo.Points++;
-                    break;
-                default:
-                    throw new PlayerNameUnknown();
-            }
+            if (player != _scoreBoard.PlayerOne && player != _scoreBoard.PlayerTwo)
+                throw new PlayerNameUnknown();
+
+            player.Points++;
         }
 
         public string GetScore() => _scoreBoard.GetScore();
