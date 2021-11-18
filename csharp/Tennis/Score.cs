@@ -21,11 +21,6 @@ namespace Tennis
             PlayerTwo = playerTwo;
         }
 
-        protected Score(Player playerOne)
-        {
-            PlayerOne = playerOne;
-        }
-
         public abstract string Get();
 
         public abstract bool ShouldUse();
