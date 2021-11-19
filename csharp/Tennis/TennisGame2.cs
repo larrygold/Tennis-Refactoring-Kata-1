@@ -1,3 +1,4 @@
+/*
 namespace Tennis
 {
     public class TennisGame2 : ITennisGame
@@ -130,7 +131,7 @@ namespace Tennis
             p2point++;
         }
 
-        public void WonPoint(string player)
+        public void WinPoint(Player player)
         {
             if (player == "player1")
                 P1Score();
@@ -140,4 +141,5 @@ namespace Tennis
 
     }
 }
+*/
 
