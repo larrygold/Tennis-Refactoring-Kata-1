@@ -35,7 +35,7 @@ namespace Tennis
                 return "Deuce";
             }
 
-            if ((_player1Points < 4 && _player2Points < 4) && (_player1Points + _player2Points < 6) && (_player1Points != _player2Points))
+            if ((_player1Points < 4 && _player2Points < 4) &&(_player1Points + _player2Points < 6))
             {
                 var scorePlayer2 = individualScores[_player2Points];
                 return scorePlayer1 + "-" + scorePlayer2;
