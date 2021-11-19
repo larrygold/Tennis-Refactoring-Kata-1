@@ -10,34 +10,34 @@ namespace Tennis
         public Player(string name)
         {
             Name = name;
+            Points = 0;
         }
     }
 
     public class TennisGame3 : ITennisGame
     {
-        private int _player2Points;
-        private string _player2Name;
-        private readonly Player _player;
+        private readonly Player _player1;
+        private readonly Player _player2;
 
         public TennisGame3(string player1Name, string player2Name)
         {
-            _player = new Player(player1Name);
-            _player2Name = player2Name;
+            _player1 = new Player(player1Name);
+            _player2 = new Player(player2Name);
         }
 
         public string GetScore()
         {
             var individualScores = new string[] { "Love", "Fifteen", "Thirty", "Forty" };
             var scorePlayer1 = "";
-            if (_player.Points <= 3)
+            if (_player1.Points <= 3)
             {
-                scorePlayer1 = individualScores[_player.Points];
+                scorePlayer1 = individualScores[_player1.Points];
             }
 
 
             if (IsEquality())
             {
-                if (_player.Points < 3)
+                if (_player1.Points < 3)
                 {
                     return scorePlayer1 + "-All";
                 }
@@ -45,24 +45,24 @@ namespace Tennis
                 return "Deuce";
             }
 
-            if (_player.Points < 4 && _player2Points < 4 && _player.Points + _player2Points < 6)
+            if (_player1.Points < 4 && _player2.Points < 4 && _player1.Points + _player2.Points < 6)
             {
-                var scorePlayer2 = individualScores[_player2Points];
+                var scorePlayer2 = individualScores[_player2.Points];
                 return scorePlayer1 + "-" + scorePlayer2;
             }
 
-            if (_player.Points >= 4 || _player2Points >= 4 || _player.Points + _player2Points >= 6)
+            if (_player1.Points >= 4 || _player2.Points >= 4 || _player1.Points + _player2.Points >= 6)
             {
-                if (_player.Points > _player2Points)
+                if (_player1.Points > _player2.Points)
                 {
-                    scorePlayer1 = _player.Name;
+                    scorePlayer1 = _player1.Name;
                 }
                 else
                 {
-                    scorePlayer1 = _player2Name;
+                    scorePlayer1 = _player2.Name;
                 }
 
-                if ((_player.Points - _player2Points) * (_player.Points - _player2Points) == 1)
+                if ((_player1.Points - _player2.Points) * (_player1.Points - _player2.Points) == 1)
                 {
                     return "Advantage " + scorePlayer1;
                 }
@@ -75,15 +75,15 @@ namespace Tennis
 
         private bool IsEquality()
         {
-            return _player.Points == _player2Points;
+            return _player1.Points == _player2.Points;
         }
 
         public void WonPoint(string playerName)
         {
-            if (playerName == _player.Name)
-                _player.Points ++;
-            else if (playerName == _player2Name)
-                _player2Points ++;
+            if (playerName == _player1.Name)
+                _player1.Points ++;
+            else if (playerName == _player2.Name)
+                _player2.Points++;
             else
                 throw new InvalidPlayerException();
         }
