@@ -1,3 +1,5 @@
+using System;
+
 namespace Tennis
 {
     public class TennisGame3 : ITennisGame
@@ -33,12 +35,18 @@ namespace Tennis
 
         public void WonPoint(string playerName)
         {
-            if (playerName == "player1")
-                _player1 += 1;
+            if (playerName == _player1Name)
+                _player1 ++;
+            else if (playerName == _player2Name)
+                _player2 ++;
             else
-                _player2 += 1;
+                throw new InvalidPlayerException();
         }
 
+    }
+
+    public class InvalidPlayerException : Exception
+    {
     }
 }
 
