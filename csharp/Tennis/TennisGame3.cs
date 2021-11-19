@@ -4,8 +4,8 @@ namespace Tennis
 {
     public class TennisGame3 : ITennisGame
     {
-        private int _player2;
-        private int _player1;
+        private int _player2Points;
+        private int _player1Points;
         private string _player1Name;
         private string _player2Name;
 
@@ -17,28 +17,36 @@ namespace Tennis
 
         public string GetScore()
         {
-            string s;
-            if ((_player1 < 4 && _player2 < 4) && (_player1 + _player2 < 6))
+            var score = "";
+
+            if ((_player1Points < 4 && _player2Points < 4) && (_player1Points + _player2Points < 6))
             {
-                string[] p = { "Love", "Fifteen", "Thirty", "Forty" };
-                s = p[_player1];
-                return (_player1 == _player2) ? s + "-All" : s + "-" + p[_player2];
+                var individualScores = new string[] { "Love", "Fifteen", "Thirty", "Forty" };
+                score = individualScores[_player1Points];
+                if (_player1Points == _player2Points)
+                {
+                    return score + "-All";
+                }
+                else
+                {
+                    return score + "-" + individualScores[_player2Points];
+                }
             }
             else
             {
-                if (_player1 == _player2)
+                if (_player1Points == _player2Points)
                     return "Deuce";
-                s = _player1 > _player2 ? _player1Name : _player2Name;
-                return ((_player1 - _player2) * (_player1 - _player2) == 1) ? "Advantage " + s : "Win for " + s;
+                score = _player1Points > _player2Points ? _player1Name : _player2Name;
+                return ((_player1Points - _player2Points) * (_player1Points - _player2Points) == 1) ? "Advantage " + score : "Win for " + score;
             }
         }
 
         public void WonPoint(string playerName)
         {
             if (playerName == _player1Name)
-                _player1 ++;
+                _player1Points ++;
             else if (playerName == _player2Name)
-                _player2 ++;
+                _player2Points ++;
             else
                 throw new InvalidPlayerException();
         }
