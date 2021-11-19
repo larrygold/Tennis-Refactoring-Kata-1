@@ -31,12 +31,12 @@ namespace Tennis
         {
             if (IsEquality())
             {
-                if (_player1.Points < 3)
+                if (IsDeuce())
                 {
-                    return GetPlayerScore(_player1) + "-All";
+                    return "Deuce";
                 }
 
-                return "Deuce";
+                return GetPlayerScore(_player1) + "-All";
             }
 
             if (IsWinOrAdvantage())
@@ -54,6 +54,11 @@ namespace Tennis
 
             var scorePlayer2 = _individualScores[_player2.Points];
             return GetPlayerScore(_player1) + "-" + scorePlayer2;
+        }
+
+        private bool IsDeuce()
+        {
+            return _player1.Points >= 3;
         }
 
         private string GetPlayerScore(Player player)
