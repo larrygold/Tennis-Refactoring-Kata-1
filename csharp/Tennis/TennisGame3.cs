@@ -52,8 +52,7 @@ namespace Tennis
             }
 
 
-            var scorePlayer2 = _individualScores[_player2.Points];
-            return GetPlayerScore(_player1) + "-" + scorePlayer2;
+            return GetPlayerScore(_player1) + "-" + GetPlayerScore(_player2);
         }
 
         private bool IsDeuce()
