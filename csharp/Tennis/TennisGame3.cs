@@ -48,7 +48,14 @@ namespace Tennis
                 {
                     scorePlayer1 = _player2Name;
                 }
-                return ((_player1Points - _player2Points) * (_player1Points - _player2Points) == 1) ? "Advantage " + scorePlayer1 : "Win for " + scorePlayer1;
+
+                if ((_player1Points - _player2Points) * (_player1Points - _player2Points) == 1)
+                {
+                    return "Advantage " + scorePlayer1;
+                }
+
+                return "Win for " + scorePlayer1;
+
             }
         }
 
