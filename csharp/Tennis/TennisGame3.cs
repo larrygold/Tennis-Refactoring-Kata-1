@@ -34,7 +34,6 @@ namespace Tennis
                 scorePlayer1 = individualScores[_player1.Points];
             }
 
-
             if (IsEquality())
             {
                 if (_player1.Points < 3)
@@ -45,13 +44,7 @@ namespace Tennis
                 return "Deuce";
             }
 
-            if (_player1.Points < 4 && _player2.Points < 4 && _player1.Points + _player2.Points < 6)
-            {
-                var scorePlayer2 = individualScores[_player2.Points];
-                return scorePlayer1 + "-" + scorePlayer2;
-            }
-
-            if (_player1.Points >= 4 || _player2.Points >= 4 || _player1.Points + _player2.Points >= 6)
+            if (IsWinOrAdvantage())
             {
                 if (_player1.Points > _player2.Points)
                 {
@@ -70,7 +63,14 @@ namespace Tennis
                 return "Win for " + scorePlayer1;
             }
 
-            throw new Exception();
+
+            var scorePlayer2 = individualScores[_player2.Points];
+            return scorePlayer1 + "-" + scorePlayer2;
+        }
+
+        private bool IsWinOrAdvantage()
+        {
+            return _player1.Points >= 4 || _player2.Points >= 4 || _player1.Points + _player2.Points >= 6;
         }
 
         private bool IsEquality()
