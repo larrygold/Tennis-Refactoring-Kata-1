@@ -1,4 +1,5 @@
 using System;
+using Tennis;
 
 namespace Tennis
 {
@@ -14,6 +15,14 @@ namespace Tennis
         }
     }
 
+    public enum Score
+    {
+        Love = 0,
+        Fifteen = 1,
+        Thirty = 2,
+        Forty = 3
+    }
+
     public class TennisGame3 : ITennisGame
     {
         private readonly Player _player1;
@@ -24,7 +33,6 @@ namespace Tennis
         {
             _player1 = new Player(player1Name);
             _player2 = new Player(player2Name);
-            _individualScores = new[] { "Love", "Fifteen", "Thirty", "Forty" };
         }
 
         public string GetScore()
@@ -45,10 +53,10 @@ namespace Tennis
 
                 if (scoresDelta == 1)
                 {
-                    return "Advantage " + GetLeadingPlayerScore();
+                    return "Advantage " + GetLeadingPlayerName();
                 }
 
-                return "Win for " + GetLeadingPlayerScore();
+                return "Win for " + GetLeadingPlayerName();
             }
 
             return GetPlayerScore(_player1) + "-" + GetPlayerScore(_player2);
@@ -63,14 +71,15 @@ namespace Tennis
         {
             if (player.Points <= 3)
             {
-                return _individualScores[player.Points];
+                var playerScore = (Score) player.Points;
+                return playerScore.ToString();
             }
 
             // TO DO
             throw new Exception();
         }
 
-        private string GetLeadingPlayerScore()
+        private string GetLeadingPlayerName()
         {
             if (_player1.Points > _player2.Points)
             {
