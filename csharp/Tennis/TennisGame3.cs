@@ -19,39 +19,42 @@ namespace Tennis
         {
             var scorePlayer1 = "";
 
-            if ( (_player1Points == _player2Points) )
+            var individualScores = new string[] { "Love", "Fifteen", "Thirty", "Forty" };
+
+            if (IsEquality())
             {
                 if (_player1Points < 3)
                 {
-                    var individualScores = new string[] { "Love", "Fifteen", "Thirty", "Forty" };
                     scorePlayer1 = individualScores[_player1Points];
                     return scorePlayer1 + "-All";
                 }
-                else
-                {
-                    return "Deuce";
-                }
+
+                return "Deuce";
             }
 
-            if ((_player1Points < 4 && _player2Points < 4) && (_player1Points + _player2Points < 6))
+            if ((_player1Points < 4 && _player2Points < 4) && (_player1Points + _player2Points < 6) && (_player1Points != _player2Points))
             {
-                var individualScores = new string[] { "Love", "Fifteen", "Thirty", "Forty" };
                 scorePlayer1 = individualScores[_player1Points];
-                if (_player1Points == _player2Points)
-                {
-                    return scorePlayer1 + "-All";
-                }
-                else
-                {
-                    var scorePlayer2 = individualScores[_player2Points];
-                    return scorePlayer1 + "-" + scorePlayer2;
-                }
+                var scorePlayer2 = individualScores[_player2Points];
+                return scorePlayer1 + "-" + scorePlayer2;
             }
             else
             {
-                scorePlayer1 = _player1Points > _player2Points ? _player1Name : _player2Name;
+                if (_player1Points > _player2Points)
+                {
+                    scorePlayer1 = _player1Name;
+                }
+                else
+                {
+                    scorePlayer1 = _player2Name;
+                }
                 return ((_player1Points - _player2Points) * (_player1Points - _player2Points) == 1) ? "Advantage " + scorePlayer1 : "Win for " + scorePlayer1;
             }
+        }
+
+        private bool IsEquality()
+        {
+            return _player1Points == _player2Points;
         }
 
         public void WonPoint(string playerName)
