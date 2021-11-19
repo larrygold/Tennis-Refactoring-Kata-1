@@ -19,12 +19,18 @@ namespace Tennis
         {
             var scorePlayer1 = "";
 
-            if ( (_player1Points == _player2Points) && (_player1Points < 3) )
-                                                    
+            if ( (_player1Points == _player2Points) )
             {
-                var individualScores = new string[] { "Love", "Fifteen", "Thirty", "Forty" };
-                scorePlayer1 = individualScores[_player1Points];
-                return scorePlayer1 + "-All";
+                if (_player1Points < 3)
+                {
+                    var individualScores = new string[] { "Love", "Fifteen", "Thirty", "Forty" };
+                    scorePlayer1 = individualScores[_player1Points];
+                    return scorePlayer1 + "-All";
+                }
+                else
+                {
+                    return "Deuce";
+                }
             }
 
             if ((_player1Points < 4 && _player2Points < 4) && (_player1Points + _player2Points < 6))
@@ -43,8 +49,6 @@ namespace Tennis
             }
             else
             {
-                if (_player1Points == _player2Points)
-                    return "Deuce";
                 scorePlayer1 = _player1Points > _player2Points ? _player1Name : _player2Name;
                 return ((_player1Points - _player2Points) * (_player1Points - _player2Points) == 1) ? "Advantage " + scorePlayer1 : "Win for " + scorePlayer1;
             }
