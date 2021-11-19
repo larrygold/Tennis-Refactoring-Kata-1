@@ -6,7 +6,7 @@ namespace Tennis
     public class Player
     {
         public int Points { get; set; }
-        public string Name { get; private set; }
+        public string Name { get; }
 
         public Player(string name)
         {
@@ -27,7 +27,6 @@ namespace Tennis
     {
         private readonly Player _player1;
         private readonly Player _player2;
-        private readonly string[] _individualScores;
 
         public TennisGame3(string player1Name, string player2Name)
         {
@@ -69,14 +68,10 @@ namespace Tennis
 
         private string GetPlayerScore(Player player)
         {
-            if (player.Points <= 3)
-            {
-                var playerScore = (Score) player.Points;
-                return playerScore.ToString();
-            }
-
-            // TO DO
-            throw new Exception();
+            if (player.Points > 3) throw new Exception();
+            
+            var playerScore = (Score) player.Points;
+            return playerScore.ToString();
         }
 
         private string GetLeadingPlayerName()
