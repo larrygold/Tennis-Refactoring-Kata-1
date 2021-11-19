@@ -18,27 +18,22 @@ namespace Tennis
     {
         private readonly Player _player1;
         private readonly Player _player2;
+        private string[] _individualScores;
 
         public TennisGame3(string player1Name, string player2Name)
         {
             _player1 = new Player(player1Name);
             _player2 = new Player(player2Name);
+            _individualScores = new string[] { "Love", "Fifteen", "Thirty", "Forty" };
         }
 
         public string GetScore()
         {
-            var individualScores = new string[] { "Love", "Fifteen", "Thirty", "Forty" };
-            var scorePlayer1 = "";
-            if (_player1.Points <= 3)
-            {
-                scorePlayer1 = individualScores[_player1.Points];
-            }
-
             if (IsEquality())
             {
                 if (_player1.Points < 3)
                 {
-                    return scorePlayer1 + "-All";
+                    return GetPlayerScore(_player1) + "-All";
                 }
 
                 return "Deuce";
@@ -46,7 +41,9 @@ namespace Tennis
 
             if (IsWinOrAdvantage())
             {
-                if ((_player1.Points - _player2.Points) * (_player1.Points - _player2.Points) == 1)
+                var scoresDelta = Math.Abs(_player1.Points - _player2.Points);
+
+                if (scoresDelta == 1)
                 {
                     return "Advantage " + GetLeadingPlayerScore();
                 }
@@ -55,8 +52,19 @@ namespace Tennis
             }
 
 
-            var scorePlayer2 = individualScores[_player2.Points];
-            return scorePlayer1 + "-" + scorePlayer2;
+            var scorePlayer2 = _individualScores[_player2.Points];
+            return GetPlayerScore(_player1) + "-" + scorePlayer2;
+        }
+
+        private string GetPlayerScore(Player player)
+        {
+            if (player.Points <= 3)
+            {
+                return _individualScores[player.Points];
+            }
+
+            // TO DO
+            throw new Exception();
         }
 
         private string GetLeadingPlayerScore()
