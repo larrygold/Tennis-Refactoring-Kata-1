@@ -17,15 +17,18 @@ namespace Tennis
 
         public string GetScore()
         {
-            var scorePlayer1 = "";
-
             var individualScores = new string[] { "Love", "Fifteen", "Thirty", "Forty" };
+            var scorePlayer1 = "";
+            if (_player1Points <= 3)
+            {
+                scorePlayer1 = individualScores[_player1Points];
+            }
+
 
             if (IsEquality())
             {
                 if (_player1Points < 3)
                 {
-                    scorePlayer1 = individualScores[_player1Points];
                     return scorePlayer1 + "-All";
                 }
 
@@ -34,7 +37,6 @@ namespace Tennis
 
             if ((_player1Points < 4 && _player2Points < 4) && (_player1Points + _player2Points < 6) && (_player1Points != _player2Points))
             {
-                scorePlayer1 = individualScores[_player1Points];
                 var scorePlayer2 = individualScores[_player2Points];
                 return scorePlayer1 + "-" + scorePlayer2;
             }
