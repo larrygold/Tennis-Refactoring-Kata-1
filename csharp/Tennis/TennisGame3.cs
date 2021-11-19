@@ -46,26 +46,32 @@ namespace Tennis
 
             if (IsWinOrAdvantage())
             {
-                if (_player1.Points > _player2.Points)
-                {
-                    scorePlayer1 = _player1.Name;
-                }
-                else
-                {
-                    scorePlayer1 = _player2.Name;
-                }
-
                 if ((_player1.Points - _player2.Points) * (_player1.Points - _player2.Points) == 1)
                 {
-                    return "Advantage " + scorePlayer1;
+                    return "Advantage " + GetLeadingPlayerScore();
                 }
 
-                return "Win for " + scorePlayer1;
+                return "Win for " + GetLeadingPlayerScore();
             }
 
 
             var scorePlayer2 = individualScores[_player2.Points];
             return scorePlayer1 + "-" + scorePlayer2;
+        }
+
+        private string GetLeadingPlayerScore()
+        {
+            string scorePlayer1;
+            if (_player1.Points > _player2.Points)
+            {
+                scorePlayer1 = _player1.Name;
+            }
+            else
+            {
+                scorePlayer1 = _player2.Name;
+            }
+
+            return scorePlayer1;
         }
 
         private bool IsWinOrAdvantage()
