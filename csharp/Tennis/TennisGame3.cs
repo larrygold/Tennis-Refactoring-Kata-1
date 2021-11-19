@@ -17,27 +17,36 @@ namespace Tennis
 
         public string GetScore()
         {
-            var score = "";
+            var scorePlayer1 = "";
+
+            if ( (_player1Points == _player2Points) && (_player1Points < 3) )
+                                                    
+            {
+                var individualScores = new string[] { "Love", "Fifteen", "Thirty", "Forty" };
+                scorePlayer1 = individualScores[_player1Points];
+                return scorePlayer1 + "-All";
+            }
 
             if ((_player1Points < 4 && _player2Points < 4) && (_player1Points + _player2Points < 6))
             {
                 var individualScores = new string[] { "Love", "Fifteen", "Thirty", "Forty" };
-                score = individualScores[_player1Points];
+                scorePlayer1 = individualScores[_player1Points];
                 if (_player1Points == _player2Points)
                 {
-                    return score + "-All";
+                    return scorePlayer1 + "-All";
                 }
                 else
                 {
-                    return score + "-" + individualScores[_player2Points];
+                    var scorePlayer2 = individualScores[_player2Points];
+                    return scorePlayer1 + "-" + scorePlayer2;
                 }
             }
             else
             {
                 if (_player1Points == _player2Points)
                     return "Deuce";
-                score = _player1Points > _player2Points ? _player1Name : _player2Name;
-                return ((_player1Points - _player2Points) * (_player1Points - _player2Points) == 1) ? "Advantage " + score : "Win for " + score;
+                scorePlayer1 = _player1Points > _player2Points ? _player1Name : _player2Name;
+                return ((_player1Points - _player2Points) * (_player1Points - _player2Points) == 1) ? "Advantage " + scorePlayer1 : "Win for " + scorePlayer1;
             }
         }
 
